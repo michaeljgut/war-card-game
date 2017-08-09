@@ -1,4 +1,6 @@
 $(function(){
+  $('#next-turn').click(nextTurn);
+  $('#new-game').click(newGame);
   // let $gameBoard = $('<div id="game-board"></div>');
   // $gameBoard.appendTo('body');
   // let $player1DownCard = $('<img src="images/back.png" id="player1-down-card"/>');
