@@ -15,7 +15,17 @@ h1 {
 }
 #player2-secondary-card {
   position: absolute;
-  left: 830px;
+  left: 820px;
+}
+#next-turn {
+  position: absolute;
+  left: 560px;
+  top: 310px;
+}
+#new-game {
+  position: absolute;
+  left: 650px;
+  top: 310px;
 }
 @media(max-width: 200px) {
   #player1-down-card {
