@@ -3,29 +3,48 @@ h1 {
 }
 #player1-secondary-card {
   position: absolute;
-  left: 310px;
+  top: 100px;
+  left: 200px;
+  border: 2px solid black;
+  width: 215px;
+  height: 328px;
 }
 #player1-main-card {
   position: absolute;
-  left: 480px;
+  top: 100px;
+  left: 420px;
+  border: 2px solid black;
+  width: 215px;
+  height: 328px;
 }
 #player2-main-card {
   position: absolute;
-  left: 650px;
+  top: 100px;
+  left: 640px;
+  border: 2px solid black;
+  width: 215px;
+  height: 328px;
 }
 #player2-secondary-card {
   position: absolute;
-  left: 820px;
+  left: 860px;
+  border: 2px solid black;
+  width: 215px;
+  height: 328px;
 }
 #next-turn {
   position: absolute;
-  left: 560px;
-  top: 310px;
+  left: 530px;
+  top: 500px;
 }
 #new-game {
   position: absolute;
-  left: 650px;
-  top: 310px;
+  left: 640px;
+  top: 500px;
+}
+button {
+  width: 100px;
+  height: 40px;
 }
 @media(max-width: 200px) {
   #player1-down-card {
