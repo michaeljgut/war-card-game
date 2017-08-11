@@ -7,12 +7,17 @@ $(function(){
       value: ''
     },
     currentPlayer: '1',
+    saveCurrentPlayer: '',
     timesPressed: 0,
+    saveTimesPressed: 0,
     player1Card: '',
     player2Card: '',
+    gameState: '',
     deck: [],
     player1Stack: [],
     player2Stack: [],
+    warStack: [],
+    warWinner: '',
     buildDeck: function() {
       console.log(this.suits);
         for (var i=0; i < this.suits.length; i++) {
@@ -47,14 +52,50 @@ $(function(){
           return playerCard.value;
       }
     },
+    war: function() {
+      warGame.gameState = 'war';
+      warGame.saveTimesPressed = warGame.timesPressed;
+      warGame.timesPressed = 0;
+      warGame.saveCurrentPlayer = warGame.currentPlayer;
+      warGame.currentPlayer = '1';
+      warGame.nextTurn();
+    },
     nextTurn: function() {
       debugger;
       warGame.timesPressed++;
       let imgName = '';
+      let rank1 = 0;
+      let rank2 = 0;
+      if ('war' === warGame.gameState) {
+        $('#player1-secondary-card').show();
+        $('#player2-secondary-card').show();
+      } else {
+        $('#player1-secondary-card').hide();
+        $('#player2-secondary-card').hide();
+      }
       if (3 === warGame.timesPressed) {
         imgName = 'images/back.png';
-        $('#player1-main-card').attr('src',imgName);
-        $('#player2-main-card').attr('src',imgName);
+        if ('war' === warGame.gameState) {
+          $('#player1-secondary-card').attr('src',imgName);
+          $('#player2-secondary-card').attr('src',imgName);
+          $('#player1-main-card').attr('src',imgName);
+          $('#player2-main-card').attr('src',imgName);
+          // $('#player1-secondary-card').hide();
+          // $('#player2-secondary-card').hide();
+          warGame.gameState = '';
+          while (warGame.warStack.length) {
+            warGame.player1Card = warGame.warStack.pop();
+            warGame.player2Card = warGame.warStack.pop();
+            if (warWinner === '1') {
+              warGame.player1Stack.push(warGame.player1Card,warGame.player2Card);
+            } else {
+              warGame.player2Stack.push(warGame.player1Card,warGame.player2Card);
+            }
+          }
+        } else {
+          $('#player1-main-card').attr('src',imgName);
+          $('#player2-main-card').attr('src',imgName);
+        }
         $('#player2-score').text(warGame.player2Stack.length);
         $('#player1-score').text(warGame.player1Stack.length);
         $('#player-turn').text(warGame.currentPlayer);
@@ -66,26 +107,60 @@ $(function(){
         warGame.player1Card = warGame.player1Stack.shift();
         wordValue = warGame.getWordValue(warGame.player1Card);
         imgName = 'images/' + wordValue + '_of_' + warGame.player1Card.suit + '.png';
-        $('#player1-main-card').attr('src',imgName);
+        if ('war' === warGame.gameState) {
+          $('#player1-secondary-card').attr('src',imgName);
+        }
+        else {
+          $('#player1-main-card').attr('src',imgName);
+        }
       } else {
         warGame.player2Card = warGame.player2Stack.shift();
         wordValue = warGame.getWordValue(warGame.player2Card);
         imgName = 'images/' + wordValue + '_of_' + warGame.player2Card.suit + '.png';
-        $('#player2-main-card').attr('src',imgName);
+        if ('war' === warGame.gameState) {
+          $('#player2-secondary-card').attr('src',imgName);
+        }
+        else {
+          $('#player2-main-card').attr('src',imgName);
+        }
       }
       //$('#player1-secondary-card').attr('src',imgName);
       if ('2' === warGame.currentPlayer){
-        if (warGame.values.indexOf(warGame.player1Card.value) > warGame.values.indexOf(warGame.player2Card.value)) {
+        rank1 = warGame.values.indexOf(warGame.player1Card.value);
+        rank2 = warGame.values.indexOf(warGame.player2Card.value);
+        if (rank1 > rank2) {
           warGame.player1Stack.push(warGame.player1Card,warGame.player2Card);
+          warWinner = '1';
+          if (('war' === warGame.gameState) && ('3' === warGame.timesPressed)){
+            warGame.timesPressed = warGame.saveTimesPressed;
+            warGame.currentPlayer = warGame.saveCurrentPlayer;
+            warGame.gameState = '';
+            imgName = 'images/back.png';
+            $('#player1-secondary-card').attr('src',imgName);
+            $('#player2-secondary-card').attr('src',imgName);
+          }
         }
-        else {
+        else if (rank1 < rank2) {
           warGame.player2Stack.push(warGame.player1Card,warGame.player2Card);
+          warWinner = '2';
+          if (('war' === warGame.gameState) && ('3' === warGame.timesPressed)){
+            warGame.timesPressed = warGame.saveTimesPressed;
+            warGame.currentPlayer = warGame.saveCurrentPlayer;
+            warGame.gameState = '';
+            imgName = 'images/back.png';
+            $('#player1-secondary-card').attr('src',imgName);
+            $('#player2-secondary-card').attr('src',imgName);
+          }
+        } else {
+          warGame.warStack.push(warGame.player1Card,warGame.player2Card)
+          warGame.war();
+        }
+        if ('war' !== warGame.gameState) {
+          warGame.currentPlayer = '1';
         }
       }
-      if ('1' === warGame.currentPlayer) {
+      else {
         warGame.currentPlayer = '2';
-      } else {
-        warGame.currentPlayer = '1';
       }
       $('#player-turn').text(warGame.currentPlayer);
       //$('#player2-secondary-card').attr('src',imgName);
