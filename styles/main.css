@@ -1,9 +1,9 @@
-h1 {
+h1, h3 {
   text-align: center;
 }
 #player1-secondary-card {
   position: absolute;
-  top: 100px;
+  top: 160px;
   left: 200px;
   border: 2px solid black;
   width: 215px;
@@ -11,7 +11,7 @@ h1 {
 }
 #player1-main-card {
   position: absolute;
-  top: 100px;
+  top: 160px;
   left: 420px;
   border: 2px solid black;
   width: 215px;
@@ -19,7 +19,7 @@ h1 {
 }
 #player2-main-card {
   position: absolute;
-  top: 100px;
+  top: 160px;
   left: 640px;
   border: 2px solid black;
   width: 215px;
@@ -27,6 +27,7 @@ h1 {
 }
 #player2-secondary-card {
   position: absolute;
+  top: 160px;
   left: 860px;
   border: 2px solid black;
   width: 215px;
