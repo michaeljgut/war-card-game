@@ -1,6 +1,8 @@
 $(function(){
   const warGame = {
     suits: ['clubs','hearts','spades','diamonds'],
+    suits1: ['spades','diamonds'],
+    suits2: ['clubs','hearts'],
     values: ['2','3','4','5','6','7','8','9','10','J','Q','K','A'],
     card: {
       suit: '',
@@ -19,10 +21,21 @@ $(function(){
     warStack: [],
     warWinner: '',
     buildDeck: function() {
-      console.log(this.suits);
         for (var i=0; i < this.values.length; i++) {
           for (var j=0; j< this.suits.length; j++) {
           this.deck.push({suit: this.suits[j], value: this.values[i]});
+          }
+        }
+    },
+    buildDeckTest: function() {
+        for (var i=0; i < this.values.length; i++) {
+          for (var j=0; j< this.suits1.length; j++) {
+          this.deck.push({suit: this.suits1[j], value: this.values[i]});
+          }
+        }
+        for (var i=0; i < this.values.length; i++) {
+          for (var j=0; j< this.suits2.length; j++) {
+          this.deck.push({suit: this.suits2[j], value: this.values[i]});
           }
         }
     },
@@ -97,7 +110,7 @@ $(function(){
       warGame.timesPressed = 0;
       warGame.saveCurrentPlayer = warGame.currentPlayer;
       warGame.currentPlayer = '1';
-      warGame.nextTurn();
+//      warGame.nextTurn();
     },
     gameOver: function() {
       if ('win' === this.gameState) {
@@ -124,7 +137,7 @@ $(function(){
         $('#player2-secondary-card').hide();
       }
       if (3 === warGame.timesPressed) {
-        let imgName = 'images/back.png';
+        imgName = 'images/back.png';
         if ('war' === warGame.gameState) {
           $('#player1-secondary-card').attr('src',imgName);
           $('#player2-secondary-card').attr('src',imgName);
@@ -163,6 +176,8 @@ $(function(){
         imgName = 'images/' + wordValue + '_of_' + warGame.player1Card.suit + '.png';
         if ('war' === warGame.gameState) {
           $('#player1-secondary-card').attr('src',imgName);
+          imgName = 'images/back.png';
+          $('#player2-secondary-card').attr('src',imgName);
         }
         else {
           $('#player1-main-card').attr('src',imgName);
@@ -263,9 +278,9 @@ $(function(){
       $('#player2-secondary-card').hide();
       $('#next-turn').click(this.nextTurn.bind(warGame));
       $('#new-game').click(this.newGame.bind(warGame));
-      this.buildDeck();
+      this.buildDeckTest();
 //      this.shuffleDeck();
-      this.splitDeckTest();
+      this.splitDeck();
       $('#player2-score').text(warGame.player2Stack.length);
       $('#player1-score').text(warGame.player1Stack.length);
       let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
