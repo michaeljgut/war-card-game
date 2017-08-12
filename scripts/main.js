@@ -27,18 +27,6 @@ $(function(){
           }
         }
     },
-    buildDeckTest: function() {
-        for (var i=0; i < this.values.length; i++) {
-          for (var j=0; j< this.suits1.length; j++) {
-          this.deck.push({suit: this.suits1[j], value: this.values[i]});
-          }
-        }
-        for (var i=0; i < this.values.length; i++) {
-          for (var j=0; j< this.suits2.length; j++) {
-          this.deck.push({suit: this.suits2[j], value: this.values[i]});
-          }
-        }
-    },
     shuffleDeck: function() {
       for (let i = this.deck.length-1; i > 0; i--) {
         let x = Math.floor(Math.random()*i);
@@ -50,16 +38,6 @@ $(function(){
     splitDeck: function() {
       this.player1Stack = this.deck.slice(0,26);
       this.player2Stack = this.deck.slice(26);
-    },
-    splitDeckTest: function() {
-//      while (this.deck.length) {
-        this.player1Stack.push(this.deck.pop());
-        this.player2Stack.push(this.deck.pop());
-//      }
-      this.player1Stack = this.deck.slice(0,25);
-      this.player2Stack = this.deck.slice(25);
-        this.player1Stack.unshift(this.deck.pop());
-        this.player2Stack.unshift(this.deck.pop());
     },
     getWordValue: function(playerCard) {
       switch(playerCard.value) {
@@ -110,7 +88,6 @@ $(function(){
       warGame.timesPressed = 0;
       warGame.saveCurrentPlayer = warGame.currentPlayer;
       warGame.currentPlayer = '1';
-//      warGame.nextTurn();
     },
     gameOver: function() {
       if ('win' === this.gameState) {
@@ -121,7 +98,6 @@ $(function(){
       $('#result').text(result);
     },
     nextTurn: function() {
-      debugger;
       if (('win' === this.gameState) || ('draw' === this.gameState)) {
         alert('Illegal move, game over!');
       }
@@ -143,8 +119,6 @@ $(function(){
           $('#player2-secondary-card').attr('src',imgName);
           $('#player1-main-card').attr('src',imgName);
           $('#player2-main-card').attr('src',imgName);
-          // $('#player1-secondary-card').hide();
-          // $('#player2-secondary-card').hide();
           warGame.gameState = '';
           while (warGame.warStack.length) {
             warGame.player1Card = warGame.warStack.pop();
@@ -197,7 +171,6 @@ $(function(){
           $('#player2-main-card').attr('src',imgName);
         }
       }
-      //$('#player1-secondary-card').attr('src',imgName);
       if ('2' === warGame.currentPlayer){
         rank1 = warGame.values.indexOf(warGame.player1Card.value);
         rank2 = warGame.values.indexOf(warGame.player2Card.value);
@@ -247,20 +220,15 @@ $(function(){
           warGame.warStack.push(warGame.player1Card,warGame.player2Card)
           warGame.war();
         }
-//        if ('war' !== warGame.gameState) {
-          warGame.currentPlayer = '1';
-//        }
+        warGame.currentPlayer = '1';
       }
       else {
         warGame.currentPlayer = '2';
       }
       let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
-      //$('#player2-secondary-card').attr('src',imgName);
     },
-    newGame: () => {
-      console.log('In newGame');
-//      console.log(this);
+    newGame: function() {
       warGame.currentPlayer = '1',
       warGame.timesPressed = 0;
       warGame.gameState = '';
@@ -268,8 +236,8 @@ $(function(){
       warGame.player2Stack = [];
       warGame.deck = [];
       warGame.buildDeck();
-//      this.shuffleDeck();
-      warGame.splitDeckTest();
+      this.shuffleDeck();
+      warGame.splitDeck();
       $('#player2-score').text(warGame.player2Stack.length);
       $('#player1-score').text(warGame.player1Stack.length);
       let resultText = 'It\'s Player' + warGame.currentPlayer + '\'s Turn';
@@ -283,7 +251,6 @@ $(function(){
       $('#player2-secondary-card').hide();
     },
     start: function() {
-      console.log('In init');
       $('#player1-secondary-card').hide();
       $('#player2-secondary-card').hide();
       $('#next-turn').click(this.nextTurn.bind(warGame));
@@ -296,13 +263,6 @@ $(function(){
       let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
     }
-    // let $gameBoard = $('<div id="game-board"></div>');
-    // $gameBoard.appendTo('body');
-    // let $player1DownCard = $('<img src="images/back.png" id="player1-down-card"/>');
-    // $player1DownCard.appendTo('div');
-    // let $player2DownCard = $('<img src="images/back.png" id="player2-down-card"/>');
-    // $player2DownCard.appendTo('div');
   }
   warGame.start();
-  console.log(warGame);
 });

@@ -1,59 +1,93 @@
-h1, h3 {
+h1,
+h3 {
   text-align: center;
 }
+
 #player1-secondary-card {
-  position: absolute;
-  top: 160px;
+  border: 2px solid black;
+  height: 328px;
   left: 200px;
-  border: 2px solid black;
+  position: absolute;
+  top: 160px;
   width: 215px;
-  height: 328px;
 }
+
+#player1-secondary-card:hover {
+  border: 2px solid red;
+  height: 328px;
+  left: 200px;
+  position: absolute;
+  top: 160px;
+  width: 215px;
+}
+
 #player1-main-card {
-  position: absolute;
-  top: 160px;
+  border: 2px solid black;
+  height: 328px;
   left: 420px;
-  border: 2px solid black;
+  position: absolute;
+  top: 160px;
   width: 215px;
-  height: 328px;
 }
+
+#player1-main-card:hover {
+  border: 2px solid red;
+  height: 328px;
+  left: 420px;
+  position: absolute;
+  top: 160px;
+  width: 215px;
+}
+
 #player2-main-card {
-  position: absolute;
-  top: 160px;
+  border: 2px solid black;
+  height: 328px;
   left: 640px;
-  border: 2px solid black;
-  width: 215px;
-  height: 328px;
-}
-#player2-secondary-card {
   position: absolute;
   top: 160px;
-  left: 860px;
-  border: 2px solid black;
   width: 215px;
-  height: 328px;
 }
+
+#player2-main-card:hover {
+  border: 2px solid red;
+  height: 328px;
+  left: 640px;
+  position: absolute;
+  top: 160px;
+  width: 215px;
+}
+
+#player2-secondary-card {
+  border: 2px solid black;
+  height: 328px;
+  left: 860px;
+  position: absolute;
+  top: 160px;
+  width: 215px;
+}
+
+#player2-secondary-card:hover {
+  border: 2px solid black;
+  height: 328px;
+  left: 860px;
+  position: absolute;
+  top: 160px;
+  width: 215px;
+}
+
 #next-turn {
   position: absolute;
   left: 530px;
   top: 500px;
 }
+
 #new-game {
   position: absolute;
   left: 640px;
   top: 500px;
 }
+
 button {
   width: 100px;
   height: 40px;
-}
-@media(max-width: 200px) {
-  #player1-down-card {
-    position: absolute;
-    left: 200px;
-  }
-  #player2-down-card {
-    position: absolute;
-    left: 370px;
-  }
 }
