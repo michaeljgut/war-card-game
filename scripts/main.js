@@ -204,25 +204,33 @@ $(function(){
         if (rank1 > rank2) {
           warGame.player1Stack.push(warGame.player1Card,warGame.player2Card);
           warWinner = '1';
-          if (('war' === warGame.gameState) && ('3' === warGame.timesPressed)){
-            warGame.timesPressed = warGame.saveTimesPressed;
-            warGame.currentPlayer = warGame.saveCurrentPlayer;
-            warGame.gameState = '';
-            imgName = 'images/back.png';
-            $('#player1-secondary-card').attr('src',imgName);
-            $('#player2-secondary-card').attr('src',imgName);
+          if ('war' === warGame.gameState) {
+            if ('3' === warGame.timesPressed){
+              warGame.timesPressed = warGame.saveTimesPressed;
+              warGame.currentPlayer = warGame.saveCurrentPlayer;
+              warGame.gameState = '';
+              imgName = 'images/back.png';
+              $('#player1-secondary-card').attr('src',imgName);
+              $('#player2-secondary-card').attr('src',imgName);
+              $('#player1-secondary-card').hide();
+              $('#player2-secondary-card').hide();
+            }
           }
         }
         else if (rank1 < rank2) {
           warGame.player2Stack.push(warGame.player1Card,warGame.player2Card);
           warWinner = '2';
-          if (('war' === warGame.gameState) && ('3' === warGame.timesPressed)){
-            warGame.timesPressed = warGame.saveTimesPressed;
-            warGame.currentPlayer = warGame.saveCurrentPlayer;
-            warGame.gameState = '';
-            imgName = 'images/back.png';
-            $('#player1-secondary-card').attr('src',imgName);
-            $('#player2-secondary-card').attr('src',imgName);
+          if ('war' === warGame.gameState) {
+            if ('3' === warGame.timesPressed){
+              warGame.timesPressed = warGame.saveTimesPressed;
+              warGame.currentPlayer = warGame.saveCurrentPlayer;
+              warGame.gameState = '';
+              imgName = 'images/back.png';
+              $('#player1-secondary-card').attr('src',imgName);
+              $('#player2-secondary-card').attr('src',imgName);
+              $('#player1-secondary-card').hide();
+              $('#player2-secondary-card').hide();
+            }
           }
         } else {
           warGame.warStack.push(warGame.player1Card,warGame.player2Card)
@@ -239,9 +247,9 @@ $(function(){
           warGame.warStack.push(warGame.player1Card,warGame.player2Card)
           warGame.war();
         }
-        if ('war' !== warGame.gameState) {
+//        if ('war' !== warGame.gameState) {
           warGame.currentPlayer = '1';
-        }
+//        }
       }
       else {
         warGame.currentPlayer = '2';
@@ -271,6 +279,8 @@ $(function(){
       $('#player2-secondary-card').attr('src',imgName);
       $('#player1-main-card').attr('src',imgName);
       $('#player2-main-card').attr('src',imgName);
+      $('#player1-secondary-card').hide();
+      $('#player2-secondary-card').hide();
     },
     start: function() {
       console.log('In init');
@@ -278,8 +288,8 @@ $(function(){
       $('#player2-secondary-card').hide();
       $('#next-turn').click(this.nextTurn.bind(warGame));
       $('#new-game').click(this.newGame.bind(warGame));
-      this.buildDeckTest();
-//      this.shuffleDeck();
+      this.buildDeck();
+      this.shuffleDeck();
       this.splitDeck();
       $('#player2-score').text(warGame.player2Stack.length);
       $('#player1-score').text(warGame.player1Stack.length);
