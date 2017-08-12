@@ -152,6 +152,8 @@ $(function(){
             $('#player2-secondary-card').attr('src',imgName);
           }
         } else {
+          warGame.player1Card = player1Stack.pop();
+          warGame.player2Card = player2Stack.pop();
           warGame.warStack.push(warGame.player1Card,warGame.player2Card)
           warGame.war();
         }
