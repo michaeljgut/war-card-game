@@ -91,7 +91,8 @@ $(function(){
       }
     },
 
-    /** getNextCard will get the next card from player's stack. If the stack is empty it returns null. Otherwise it
+    /**
+      * getNextCard will get the next card from player's stack. If the stack is empty it returns null. Otherwise it
       * will return the card retrieved.
       */
     getNextCard: function(player) {
@@ -131,7 +132,7 @@ $(function(){
       this.currentPlayer = '1';
     },
 
-    // gameOver will determine whether the game was won or ended in a draw and display a text message
+    // function gameOver will determine whether the game was won or ended in a draw and display a text message
     gameOver: function() {
       if ('win' === this.gameState) {
         result = 'Game Over, Player' + this.warWinner + ' Has Won!';
@@ -141,7 +142,13 @@ $(function(){
       $('#result').text(result);
     },
 
-    /** nextTurn is called when
+    /**
+      * nextTurn is called when the Next Turn button is clicked. It will check who's turn it is and turn over that player's card.
+      * If the game is in the war state, then the player's secondary card is turned over. If it is player 2's turn, then after
+      * their card is turned over player 1 and player 2's cards are compared to see who's card has a higher rank. The winner gets
+      * both cards added to the bottom of their stack. The next turn button must be clicked a third time to display the results
+      * of the comparison and to display the next 2 cards face down. The winner's score will increase by 2 and the loser's
+      * score will decrease by 2.
     */
     nextTurn: function() {
       if (('win' === this.gameState) || ('draw' === this.gameState)) {
@@ -185,7 +192,8 @@ $(function(){
         this.currentPlayer = '1';
         this.timesPressed = 0;
         return;
-      }
+      } // if 3 times pressed
+
       if ('1' === this.currentPlayer) {
         this.player1Card = this.getNextCard(this.currentPlayer);
         if (this.player1Card === null) {
@@ -217,6 +225,7 @@ $(function(){
           $('#player2-main-card').attr('src',imgName);
         }
       }
+
       if ('2' === this.currentPlayer){
         rank1 = this.values.indexOf(this.player1Card.value);
         rank2 = this.values.indexOf(this.player2Card.value);
