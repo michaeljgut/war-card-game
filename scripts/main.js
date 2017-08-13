@@ -11,7 +11,12 @@
 $(function(){
   const warGame = {
     suits: ['clubs','hearts','spades','diamonds'],
+    suits1: ['spades','diamonds'],
+    suits2: ['clubs','hearts'],
     values: ['2','3','4','5','6','7','8','9','10','J','Q','K','A'],
+    values1: ['2','3','4','5','6','7'],
+    values2: ['8','9','10','J','Q','K','A'],
+    values3: ['8','9','10','J','Q','K','A'],
     card: {
       suit: '',
       value: ''
@@ -30,7 +35,7 @@ $(function(){
     player2Card: '',
 
     // gameState is used to determine if the game is in the war state of if the game ended in either a win or a draw
-    gameState: '',
+    gameState: 'regular',
 
     // deck represents the deck of 52 cards
     deck: [],
@@ -56,6 +61,28 @@ $(function(){
         }
     },
 
+    buildDeckTest: function() {
+        for (var i=0; i < this.suits1.length; i++) {
+          for (var j=0; j< this.values1.length; j++) {
+          this.deck.push({suit: this.suits1[i], value: this.values1[j]});
+          }
+        }
+        for (var i=0; i < this.suits1.length; i++) {
+          for (var j=0; j< this.values2.length; j++) {
+          this.deck.push({suit: this.suits1[i], value: this.values2[j]});
+          }
+        }
+        for (var i=0; i < this.suits2.length; i++) {
+          for (var j=0; j< this.values1.length; j++) {
+          this.deck.push({suit: this.suits2[i], value: this.values1[j]});
+          }
+        }
+        for (var i=0; i < this.suits2.length; i++) {
+          for (var j=0; j< this.values3.length; j++) {
+          this.deck.push({suit: this.suits2[i], value: this.values3[j]});
+          }
+        }
+    },
     /** I took this algorithm from this web page:
       * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array and modified it
       * slightly
@@ -73,6 +100,18 @@ $(function(){
     splitDeck: function() {
       this.player1Stack = this.deck.slice(0,26);
       this.player2Stack = this.deck.slice(26);
+    },
+
+    // splitDeck splits the shuffled deck of cards into 2 even stacks
+    splitDeckTest: function() {
+      this.player1Stack = this.deck.slice(0,26);
+      this.player1Stack.unshift({suit: 'clubs', value: '4'})
+      this.player1Stack.unshift({suit: 'clubs', value: '5'})
+      this.player1Stack.unshift({suit: 'spades', value: '4'})
+      this.player2Stack = this.deck.slice(26);
+      this.player2Stack.unshift({suit: 'hearts', value: '4'})
+      this.player2Stack.unshift({suit: 'hearts', value: '6'})
+      this.player2Stack.unshift({suit: 'diamonds', value: '4'})
     },
 
     // This function converts a cards value into a word used in the name of the image file for that card.
@@ -125,13 +164,6 @@ $(function(){
       }
     },
 
-    // function war will set the gameState to war and reset the currentPlayer and timesPressed values
-    war: function() {
-      this.gameState = 'war';
-      this.timesPressed = 0;
-      this.currentPlayer = '1';
-    },
-
     // function gameOver will determine whether the game was won or ended in a draw and display a text message
     gameOver: function() {
       if ('win' === this.gameState) {
@@ -148,40 +180,59 @@ $(function(){
       * their card is turned over player 1 and player 2's cards are compared to see who's card has a higher rank. The winner gets
       * both cards added to the bottom of their stack. The next turn button must be clicked a third time to display the results
       * of the comparison and to display the next 2 cards face down. The winner's score will increase by 2 and the loser's
-      * score will decrease by 2.
+      * score will decrease by 2 on the third click. Clicking Next Turn again will repeat the process. If both player's cards have
+      * the same rank, then the gameState is set to war. The current cards are placed on the war stack. Then a card is retrieved
+      * from each player's stack and pushed on the war stack. Then play resumes like normal as each player must click the Next Turn
+      * button to see the next card from their stack. These cards are then compared and the winner gets all  of the cards on the
+      * war stack. If these 2 cards are also the same rank then the process repeats until one player wins the comparison or runs out
+      * of cards. If both players run out of cards at the same time this is called a draw.
     */
     nextTurn: function() {
+      debugger;
+      // Check if the game is over, then New Game button must be clicked.
       if (('win' === this.gameState) || ('draw' === this.gameState)) {
         alert('Illegal move, game over!');
+        return;
       }
       this.timesPressed++;
+
+      // imgName will hold the file name of the card to be displayed
       let imgName = '';
+
+      // rank1 is the rank of player1's current card
       let rank1 = 0;
+
+      // rank2 is the rank of player2's current card
       let rank2 = 0;
-      if ('war' === this.gameState) {
+
+      // Only display the secondary cards when the gameState is war
+      if ('war' === this.gameState || 'afterWar' === this.gameState) {
         $('#player1-secondary-card').show();
         $('#player2-secondary-card').show();
       } else {
         $('#player1-secondary-card').hide();
         $('#player2-secondary-card').hide();
       }
+
+      /**
+        * When the Next Turn button is pressed 3 consecutive times, show the backs of the cards and update the player's score by
+        * checking the length of their respective stacks. If it's the war state, show the backs of the secondary cards. If the
+        * game state is after war then show the backs of all the cards and then hide the secondary cards since they are no longer
+        * needed and then reset the game state to regular.
+        */
       if (3 === this.timesPressed) {
         imgName = 'images/back.png';
         if ('war' === this.gameState) {
           $('#player1-secondary-card').attr('src',imgName);
           $('#player2-secondary-card').attr('src',imgName);
+        } else if ('afterWar' === this.gameState) {
           $('#player1-main-card').attr('src',imgName);
           $('#player2-main-card').attr('src',imgName);
-          this.gameState = '';
-          while (this.warStack.length) {
-            this.player1Card = this.warStack.pop();
-            this.player2Card = this.warStack.pop();
-            if (warWinner === '1') {
-              this.player1Stack.push(this.player1Card,this.player2Card);
-            } else {
-              this.player2Stack.push(this.player1Card,this.player2Card);
-            }
-          }
+          $('#player1-secondary-card').attr('src',imgName);
+          $('#player2-secondary-card').attr('src',imgName);
+          $('#player1-secondary-card').hide();
+          $('#player2-secondary-card').hide();
+          this.gameState = 'regular';
         } else {
           $('#player1-main-card').attr('src',imgName);
           $('#player2-main-card').attr('src',imgName);
@@ -194,6 +245,7 @@ $(function(){
         return;
       } // if 3 times pressed
 
+      // Display player1 or player2's card. Check if there are no more cards in either player's stack first.
       if ('1' === this.currentPlayer) {
         this.player1Card = this.getNextCard(this.currentPlayer);
         if (this.player1Card === null) {
@@ -226,6 +278,12 @@ $(function(){
         }
       }
 
+      /**
+        * Compare the cards if it's player2's turn, since both cards are now in play. Depending on who has the higher card, put
+        * both cards on the winning player's stack. If the ranks are equal, go into the war state. Place the current cards onto
+        * the war stack along with the next 2 cards from each player's stack. The war stack is necessary because we still don't
+        * know who will win this war.
+        */
       if ('2' === this.currentPlayer){
         rank1 = this.values.indexOf(this.player1Card.value);
         rank2 = this.values.indexOf(this.player2Card.value);
@@ -233,34 +291,28 @@ $(function(){
           this.player1Stack.push(this.player1Card,this.player2Card);
           warWinner = '1';
           if ('war' === this.gameState) {
-            if ('3' === this.timesPressed){
-              this.timesPressed = 0;
-              this.currentPlayer = '1';
-              this.gameState = '';
-              imgName = 'images/back.png';
-              $('#player1-secondary-card').attr('src',imgName);
-              $('#player2-secondary-card').attr('src',imgName);
-              $('#player1-secondary-card').hide();
-              $('#player2-secondary-card').hide();
+            while (this.warStack.length) {
+              this.player1Card = this.warStack.pop();
+              this.player2Card = this.warStack.pop();
+              this.player1Stack.push(this.player1Card,this.player2Card);
             }
+            this.currentPlayer = '1';
+            this.gameState = 'afterWar';
           }
         }
         else if (rank1 < rank2) {
           this.player2Stack.push(this.player1Card,this.player2Card);
           warWinner = '2';
           if ('war' === this.gameState) {
-            if ('3' === this.timesPressed){
-              this.timesPressed = 0;
-              this.currentPlayer = '1';
-              this.gameState = '';
-              imgName = 'images/back.png';
-              $('#player1-secondary-card').attr('src',imgName);
-              $('#player2-secondary-card').attr('src',imgName);
-              $('#player1-secondary-card').hide();
-              $('#player2-secondary-card').hide();
+            while (this.warStack.length) {
+              this.player1Card = this.warStack.pop();
+              this.player2Card = this.warStack.pop();
+              this.player2Stack.push(this.player1Card,this.player2Card);
             }
+            this.currentPlayer = '1';
+            this.gameState = 'afterWar';
           }
-        } else {
+        } else { // war
           this.warStack.push(this.player1Card,this.player2Card)
           this.player1Card = this.getNextCard('1');
           if (this.player1Card === null) {
@@ -273,7 +325,8 @@ $(function(){
             return;
           }
           this.warStack.push(this.player1Card,this.player2Card)
-          this.war();
+          // Set the gameState to war
+          this.gameState = 'war';
         }
         this.currentPlayer = '1';
       }
@@ -283,14 +336,17 @@ $(function(){
       let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
     },
+    /**
+      * The newGame function is called when the New Game button is clicked. It will re-initialize the warGame fields and then
+      * reshuffle and split the deck.
+      */
     newGame: function() {
       this.currentPlayer = '1',
       this.timesPressed = 0;
-      this.gameState = '';
+      this.gameState = 'regular';
       this.player1Stack = [];
       this.player2Stack = [];
-      this.deck = [];
-      this.buildDeck();
+      this.warStack = [];
       this.shuffleDeck();
       this.splitDeck();
       $('#player2-score').text(this.player2Stack.length);
@@ -305,6 +361,11 @@ $(function(){
       $('#player1-secondary-card').hide();
       $('#player2-secondary-card').hide();
     },
+    /**
+      * The start function will hide the secondary cards since they are only needed in the war state. It will set up the event
+      * listeners, build, shuffle and split the deck, then display the number of cards in each player's stack and give a message
+      * as to who's turn it is.
+      */
     start: function() {
       $('#player1-secondary-card').hide();
       $('#player2-secondary-card').hide();
