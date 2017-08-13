@@ -61,28 +61,6 @@ $(function(){
         }
     },
 
-    buildDeckTest: function() {
-        for (var i=0; i < this.suits1.length; i++) {
-          for (var j=0; j< this.values1.length; j++) {
-          this.deck.push({suit: this.suits1[i], value: this.values1[j]});
-          }
-        }
-        for (var i=0; i < this.suits1.length; i++) {
-          for (var j=0; j< this.values2.length; j++) {
-          this.deck.push({suit: this.suits1[i], value: this.values2[j]});
-          }
-        }
-        for (var i=0; i < this.suits2.length; i++) {
-          for (var j=0; j< this.values1.length; j++) {
-          this.deck.push({suit: this.suits2[i], value: this.values1[j]});
-          }
-        }
-        for (var i=0; i < this.suits2.length; i++) {
-          for (var j=0; j< this.values3.length; j++) {
-          this.deck.push({suit: this.suits2[i], value: this.values3[j]});
-          }
-        }
-    },
     /** I took this algorithm from this web page:
       * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array and modified it
       * slightly
@@ -100,18 +78,6 @@ $(function(){
     splitDeck: function() {
       this.player1Stack = this.deck.slice(0,26);
       this.player2Stack = this.deck.slice(26);
-    },
-
-    // splitDeck splits the shuffled deck of cards into 2 even stacks
-    splitDeckTest: function() {
-      this.player1Stack = this.deck.slice(0,26);
-      this.player1Stack.unshift({suit: 'clubs', value: '4'})
-      this.player1Stack.unshift({suit: 'clubs', value: '5'})
-      this.player1Stack.unshift({suit: 'spades', value: '4'})
-      this.player2Stack = this.deck.slice(26);
-      this.player2Stack.unshift({suit: 'hearts', value: '4'})
-      this.player2Stack.unshift({suit: 'hearts', value: '6'})
-      this.player2Stack.unshift({suit: 'diamonds', value: '4'})
     },
 
     // This function converts a cards value into a word used in the name of the image file for that card.
