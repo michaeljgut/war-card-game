@@ -11,12 +11,7 @@
 $(function(){
   const warGame = {
     suits: ['clubs','hearts','spades','diamonds'],
-    suits1: ['spades','diamonds'],
-    suits2: ['clubs','hearts'],
     values: ['2','3','4','5','6','7','8','9','10','J','Q','K','A'],
-    values1: ['2','3','4','5','6','7'],
-    values2: ['8','9','10','J','Q','K','A'],
-    values3: ['8','9','10','J','Q','K','A'],
     card: {
       suit: '',
       value: ''
