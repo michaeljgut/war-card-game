@@ -1,5 +1,5 @@
 /**
-  * War Card Game: Uses jquery for DOM manipulation. Will create a deck of cards, shuffle and split the deck, and wait for the next
+  * War Card Game: Uses jQuery for DOM manipulation. Will create a deck of cards, shuffle and split the deck, and wait for the next
   * turn button to be pressed. When the next turn button is pressed, player 1's card is displayed. When the next turn button is
   * pressed again player 2's card is displayed. The 2 cards  are then compared. The player with the higher card takes both cards and
   * places them on the bottom of their stack. This continues until one player has no more cards and the other player wins. If both
@@ -23,7 +23,7 @@ $(function(){
     // timesPressed is used to keep track of how many times the next turn button is pressed
     timesPressed: 0,
 
-    // player!Card is player 1's current card being compared
+    // player1Card is player 1's current card being compared
     player1Card: '',
 
     // player2Card is player 2's current card being compared
@@ -149,7 +149,6 @@ $(function(){
       * of cards. If both players run out of cards at the same time this is called a draw.
     */
     nextTurn: function() {
-      debugger;
       // Check if the game is over, then New Game button must be clicked.
       if (('win' === this.gameState) || ('draw' === this.gameState)) {
         alert('Illegal move, game over!');
@@ -200,7 +199,6 @@ $(function(){
         }
         $('#player2-score').text(this.player2Stack.length);
         $('#player1-score').text(this.player1Stack.length);
-        $('#player-turn').text(this.currentPlayer);
         this.currentPlayer = '1';
         this.timesPressed = 0;
         return;
@@ -213,7 +211,7 @@ $(function(){
           this.gameOver();
           return;
         }
-        wordValue = this.getWordValue(warGame.player1Card);
+        let wordValue = this.getWordValue(warGame.player1Card);
         imgName = 'images/' + wordValue + '_of_' + this.player1Card.suit + '.png';
         if ('war' === this.gameState) {
           $('#player1-secondary-card').attr('src',imgName);
@@ -229,7 +227,7 @@ $(function(){
           this.gameOver();
           return;
         }
-        wordValue = this.getWordValue(this.player2Card);
+        let wordValue = this.getWordValue(this.player2Card);
         imgName = 'images/' + wordValue + '_of_' + this.player2Card.suit + '.png';
         if ('war' === this.gameState) {
           $('#player2-secondary-card').attr('src',imgName);
@@ -250,7 +248,7 @@ $(function(){
         rank2 = this.values.indexOf(this.player2Card.value);
         if (rank1 > rank2) {
           this.player1Stack.push(this.player1Card,this.player2Card);
-          warWinner = '1';
+          this.warWinner = '1';
           if ('war' === this.gameState) {
             while (this.warStack.length) {
               this.player1Card = this.warStack.pop();
@@ -263,7 +261,7 @@ $(function(){
         }
         else if (rank1 < rank2) {
           this.player2Stack.push(this.player1Card,this.player2Card);
-          warWinner = '2';
+          this.warWinner = '2';
           if ('war' === this.gameState) {
             while (this.warStack.length) {
               this.player1Card = this.warStack.pop();
@@ -294,7 +292,7 @@ $(function(){
       else {
         this.currentPlayer = '2';
       }
-      let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
+      let resultText = 'It\'s Player ' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
     },
     /**
@@ -312,7 +310,7 @@ $(function(){
       this.splitDeck();
       $('#player2-score').text(this.player2Stack.length);
       $('#player1-score').text(this.player1Stack.length);
-      let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
+      let resultText = 'It\'s Player ' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
       let imgName = 'images/back.png';
       $('#player1-secondary-card').attr('src',imgName);
@@ -337,7 +335,7 @@ $(function(){
       this.splitDeck();
       $('#player2-score').text(warGame.player2Stack.length);
       $('#player1-score').text(warGame.player1Stack.length);
-      let resultText = 'It\'s Player' + this.currentPlayer + '\'s Turn';
+      let resultText = 'It\'s Player ' + this.currentPlayer + '\'s Turn';
       $('#result').text(resultText);
     }
   }
