@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <title>War Card Game</title>
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="scripts/main.js"></script>
   </head>
   <body>
     <header>
       <h1>War Card Game</h1>
-      <h3>Player 1: <span id="player1-score"></span>     Player2: <span id="player2-score"></span></h3>
+      <h3>Player 1: <span id="player1-score"></span> Player 2: <span id="player2-score"></span></h3>
       <h3 id="result"></h3>
     </header><!-- /header -->
     <div id="game-board">
-      <img src="images/back.png" alt="back of playing card" id="player1-secondary-card"/>
-      <img src="images/back.png" alt="back of playing card" id="player1-main-card"/>
-      <img src="images/back.png" alt="back of playing card" id="player2-main-card"/>
-      <img src="images/back.png" alt="back of playing card" id="player2-secondary-card"/>
+      <img src="images/back.png" alt="back of playing card" class="card" id="player1-secondary-card"/>
+      <img src="images/back.png" alt="back of playing card" class="card" id="player1-main-card"/>
+      <img src="images/back.png" alt="back of playing card" class="card" id="player2-main-card"/>
+      <img src="images/back.png" alt="back of playing card" class="card" id="player2-secondary-card"/>
       <button id="next-turn">Next Turn</button>
       <button id="new-game">New Game</button>
     </div>
